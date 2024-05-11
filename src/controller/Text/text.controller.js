@@ -3,10 +3,11 @@ const Text = require("../../models/Text/Text.model");
 
 const saveText = async (req, res) => {
   try {
+    console.log("req.body__",req);
     const { text } = req.body;
 
     const newText = new Text({
-      text,
+      text:text,
     });
     await newText.save();
 
@@ -14,6 +15,7 @@ const saveText = async (req, res) => {
       message: "Text saved successfully",
     });
   } catch (error) {
+    console.log("error__",error);
     res.status(400).json({ error: error.message });
   }
 };
