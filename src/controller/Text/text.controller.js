@@ -16,7 +16,7 @@ const saveText = async (req, res) => {
     });
   } catch (error) {
     console.log("error__", error);
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ status: 400, error: error.message });
   }
 };
 const getTextList = async (req, res) => {
@@ -28,7 +28,7 @@ const getTextList = async (req, res) => {
       data,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ status: 400, error: error.message });
   }
 };
 const editText = async (req, res) => {

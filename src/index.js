@@ -1,9 +1,10 @@
 const express = require("express");
 require("dotenv").config();
-const text = require("./routes/Text/text.route");
+const userHandler = require("./routes/User/user.route");
+const textHandler = require("./routes/Text/text.route");
 const { connectDB } = require("./db");
 const { limiter, corsOptions } = require("./constants");
-
+const passport = require("passport");
 const app = express();
 
 // Rate limiter to all requests
@@ -16,8 +17,13 @@ connectDB();
 
 app.use(corsOptions);
 
+// passport initialization
+app.use(passport.initialize());
+require("./config/passport")(passport);
+
 // Routes
-app.use("/api/text", text);
+app.use("/api/user", userHandler);
+app.use("/api/text", textHandler);
 
 // Central error handler
 app.use((err, req, res, next) => {
