@@ -1,24 +1,20 @@
 const express = require("express");
-const { default: mongoose } = require("mongoose");
-const cors = require("cors");
 require("dotenv").config();
 const text = require("./routes/Text/text.route");
 const { connectDB } = require("./db");
-const { origins } = require("./constants");
+const { limiter, corsOptions } = require("./constants");
 
 const app = express();
+
+// Rate limiter to all requests
+app.use(limiter);
 
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 
 connectDB();
 
-app.use(
-  cors({
-    origin: origins,
-    credentials: true,
-  })
-);
+app.use(corsOptions);
 
 // Routes
 app.use("/api/text", text);

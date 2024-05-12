@@ -24,6 +24,7 @@ const getTextList = async (req, res) => {
     const data = await Text.find();
 
     res.status(200).json({
+      status: 200,
       data,
     });
   } catch (error) {
@@ -54,7 +55,10 @@ const editText = async (req, res) => {
       message: "Text updated successfully",
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({
+      status: 400,
+      error: error.message,
+    });
   }
 };
 const deleteText = async (req, res) => {
@@ -66,10 +70,14 @@ const deleteText = async (req, res) => {
     });
 
     res.status(200).json({
+      status: 200,
       message: "Text deleted successfully",
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({
+      status: 400,
+      error: error.message,
+    });
   }
 };
 module.exports = {
