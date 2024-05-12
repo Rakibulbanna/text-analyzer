@@ -9,6 +9,7 @@ const { origins } = require("./constants");
 const app = express();
 
 app.use("/uploads", express.static("uploads"));
+app.use(express.json());
 
 connectDB();
 
@@ -20,7 +21,7 @@ app.use(
 );
 
 // Routes
-app.use("/api/texts", text);
+app.use("/api/text", text);
 
 // Central error handler
 app.use((err, req, res, next) => {

@@ -12,37 +12,20 @@ function calculateWordCount(text) {
 }
 
 function calculateCharacterCount(text) {
-  let count = 0;
-  const length = text.length;
-  for (let i = 0; i < length; i++) {
-    count++;
-  }
-  return count;
+  return text.length;
 }
 
 function calculateSentenceCount(text) {
-  const sentenceEnders = [".", "?", "!"];
+  const sentenceEndsWith = [".", "?", "!"];
+  const regex = new RegExp("[" + sentenceEndsWith.join("") + "]", "g");
 
-  let count = 0;
-  const length = text.length;
+  // Getting sentence with endpoints
+  const sentences = text.split(regex);
 
-  for (let i = 0; i < length; i++) {
-    //  is the current character is a sentence-ending check
-    if (sentenceEnders.includes(text[i])) {
-      // is the next character exists and is not a space, increment count
-      if (text[i + 1] && text[i + 1] !== " ") {
-        count++;
-      }
-    }
-  }
+  // filtering empty sentence from sentences
+  const validSentences = sentences.filter((sentence) => sentence.trim() !== "");
 
-  // Add 1 to count for the last sentence
-
-  if (!sentenceEnders.includes(text[length - 1])) {
-    count++;
-  }
-
-  return count;
+  return validSentences.length;
 }
 
 function calculateParagraphCount(text) {
@@ -62,20 +45,22 @@ function calculateLongestWords(text) {
   const paragraphs = text
     .split("\n")
     .filter((paragraph) => paragraph.trim() !== "");
-    
-  const paragraphsLength = paragraphs.length;
-  let longestWord = paragraphs[0] || "",
-    longestWordLength = paragraphs[0]?.length || 0;
 
-  for (let i = 0; i < paragraphsLength; i++) {
-    const words = paragraphs[i].split(" ").filter((word) => word.trim() !== "");
-    const wordsLength = words.length;
-    if (wordsLength > longestWordLength) {
-      longestWord = words;
-      longestWordLength = wordsLength;
+  let longestWord = "",
+    longestWordLength = 0;
+
+  for (const paragraph of paragraphs) {
+    const words = paragraph.split(" ").filter((word) => word.trim() !== "");
+
+    for (const word of words) {
+      const wordsLength = word.length;
+      if (wordsLength > longestWordLength) {
+        longestWord = word;
+        longestWordLength = wordsLength;
+      }
     }
   }
-  return longestWordLength;
+  return longestWord;
 }
 
 module.exports = {

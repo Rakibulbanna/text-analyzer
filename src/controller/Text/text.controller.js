@@ -3,11 +3,11 @@ const Text = require("../../models/Text/Text.model");
 
 const saveText = async (req, res) => {
   try {
-    console.log("req.body__",req);
+    console.log("req.body__", req.body);
     const { text } = req.body;
 
     const newText = new Text({
-      text:text,
+      text: text,
     });
     await newText.save();
 
@@ -15,7 +15,7 @@ const saveText = async (req, res) => {
       message: "Text saved successfully",
     });
   } catch (error) {
-    console.log("error__",error);
+    console.log("error__", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -49,7 +49,6 @@ const editText = async (req, res) => {
         useFindAndModify: false,
       }
     );
-    await newText.save();
 
     res.status(200).json({
       message: "Text updated successfully",
@@ -65,7 +64,6 @@ const deleteText = async (req, res) => {
     await Text.findOneAndDelete({
       _id: new mongoose.Types.ObjectId(id),
     });
-    
 
     res.status(200).json({
       message: "Text deleted successfully",
